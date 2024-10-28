@@ -4,7 +4,7 @@ import game
 import show_animation
 
 DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 800
+DISPLAY_HEIGHT = 450
 
 
 def show_menu():
