@@ -86,88 +86,89 @@ class Rock(pg.sprite.Sprite):
             self.kill()  # Удалить, если выходит за экран
 
 # Функция для отображения текста
-def show_message(text, color, size):
+def show_message(pg, display, text, color, size):
     font = pg.font.Font(None, size)
     message = font.render(text, True, color)
     display.blit(message, (SCREEN_WIDTH // 2 - message.get_width() // 2, SCREEN_HEIGHT // 2 - message.get_height() // 2))
     pg.display.update()
     pg.time.delay(2000)  # Задержка для отображения сообщения
 
-# Основная программа
-pg.init()
-display = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pg.display.set_caption("Кораблик против моря")
-clock = pg.time.Clock()
+def play_game():
+    # Основная программа
+    pg.init()
+    display = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pg.display.set_caption("Кораблик против моря")
+    clock = pg.time.Clock()
 
-# Группы спрайтов
-all_enemy_sprites = pg.sprite.Group()
-bullets = pg.sprite.Group()
-monsters = pg.sprite.Group()
-rocks = pg.sprite.Group()
+    # Группы спрайтов
+    all_enemy_sprites = pg.sprite.Group()
+    bullets = pg.sprite.Group()
+    monsters = pg.sprite.Group()
+    rocks = pg.sprite.Group()
 
-# Создаем корабль
-group_for_ship = pg.sprite.Group()
-ship = Ship()
-group_for_ship.add(ship)
+    # Создаем корабль
+    group_for_ship = pg.sprite.Group()
+    ship = Ship()
+    group_for_ship.add(ship)
 
-# Игровой цикл
-running = True
-game_over = False
+    # Игровой цикл
+    running = True
+    game_over = False
 
-while running:
-    clock.tick(FPS)
+    while running:
+        clock.tick(FPS)
 
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            running = False
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_SPACE and not game_over:  # Выстрел
-                bullet = Bullet(ship.rect.x, ship.rect.y + 50)
-                all_enemy_sprites.add(bullet)
-                bullets.add(bullet)
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE and not game_over:  # Выстрел
+                    bullet = Bullet(ship.rect.x, ship.rect.y + 50)
+                    all_enemy_sprites.add(bullet)
+                    bullets.add(bullet)
 
-    move_left = pg.key.get_pressed()[pg.K_LEFT]  # Проверка, нажата ли клавиша влево
+        move_left = pg.key.get_pressed()[pg.K_LEFT]  # Проверка, нажата ли клавиша влево
 
-    if not game_over:
-        all_enemy_sprites.update()
-        ship.update(move_left=move_left)
+        if not game_over:
+            all_enemy_sprites.update()
+            ship.update(move_left=move_left)
 
-        # Создание монстров и камней
-        if random.random() < 0.005:  # 1% шанс создать монстра
-            monster = Monster()
-            all_enemy_sprites.add(monster)
-            monsters.add(monster)
-        
-        if random.random() < 0.005:  # 2% шанс создать камень
-            rock = Rock()
-            all_enemy_sprites.add(rock)
-            rocks.add(rock)
+            # Создание монстров и камней
+            if random.random() < 0.005:  # 1% шанс создать монстра
+                monster = Monster()
+                all_enemy_sprites.add(monster)
+                monsters.add(monster)
+            
+            if random.random() < 0.005:  # 2% шанс создать камень
+                rock = Rock()
+                all_enemy_sprites.add(rock)
+                rocks.add(rock)
 
-        # Проверка на столкновения
-        for bullet in bullets:
-            hit_monsters = pg.sprite.spritecollide(bullet, monsters, True)
-            if hit_monsters:
-                bullet.kill()
+            # Проверка на столкновения
+            for bullet in bullets:
+                hit_monsters = pg.sprite.spritecollide(bullet, monsters, True)
+                if hit_monsters:
+                    bullet.kill()
 
-        hit_rocks = pg.sprite.spritecollide(ship, rocks, False)
-        hit_monsters = pg.sprite.spritecollide(ship, monsters, False)
+            hit_rocks = pg.sprite.spritecollide(ship, rocks, False)
+            hit_monsters = pg.sprite.spritecollide(ship, monsters, False)
 
-        # Проверка на поражение
-        if hit_rocks or hit_monsters:
-            game_over = True
+            # Проверка на поражение
+            if hit_rocks or hit_monsters:
+                game_over = True
 
-        # Проверка на победу
-        if ship.rect.x < 0:
-            show_message("Вы победили!", WHITE, 74)
-            running = False
+            # Проверка на победу
+            if ship.rect.x < 0:
+                show_message(pg, display, "Вы победили!", WHITE, 74)
+                running = False
 
-    # Отображение
-    display.fill(BLUE)  # Фон моря
-    all_enemy_sprites.draw(display)
-    group_for_ship.draw(display)
-    pg.display.flip()
+        # Отображение
+        display.fill(BLUE)  # Фон моря
+        all_enemy_sprites.draw(display)
+        group_for_ship.draw(display)
+        pg.display.flip()
+    
+    if game_over:
+        show_message(pg, display, "Игра окончена: вы проиграли!", WHITE, 74)
+    pg.quit()
 
-if game_over:
-    show_message("Игра окончена: вы проиграли!", WHITE, 74)
-
-pg.quit()
