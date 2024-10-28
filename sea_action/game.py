@@ -59,8 +59,8 @@ class Bullet(pg.sprite.Sprite):
 class Monster(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.Surface((50, 50))
-        self.image.fill(RED)
+        self.image = pg.image.load("./octopus.png")
+        self.image = pg.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = random.randint(0, SCREEN_HEIGHT)
