@@ -6,7 +6,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 FPS = 60
 SHIP_SPEED = 1
-BULLET_SPEED = 10
+BULLET_SPEED = 20
 MONSTER_SPEED = 2
 
 # Цвета
@@ -30,9 +30,9 @@ class Ship(pg.sprite.Sprite):
         # Движение корабля вверх и вниз
         keys = pg.key.get_pressed()
         if keys[pg.K_UP] and self.rect.y > 0:
-            self.rect.y -= SHIP_SPEED
+            self.rect.y -= 2 * SHIP_SPEED
         if keys[pg.K_DOWN] and self.rect.y < SCREEN_HEIGHT - self.rect.height:
-            self.rect.y += SHIP_SPEED
+            self.rect.y += 2 * SHIP_SPEED
 
         # Движение влево с увеличенной скоростью
         if move_left:
@@ -75,7 +75,7 @@ class Rock(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pg.image.load("rock.png")
-        self.image = pg.transform.scale(self.image, (100, 100))
+        self.image = pg.transform.scale(self.image, (75, 75))
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = random.randint(50, SCREEN_HEIGHT)
@@ -122,7 +122,7 @@ while running:
             running = False
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_SPACE and not game_over:  # Выстрел
-                bullet = Bullet(ship.rect.x, ship.rect.y + 20)
+                bullet = Bullet(ship.rect.x, ship.rect.y + 50)
                 all_enemy_sprites.add(bullet)
                 bullets.add(bullet)
 
