@@ -20,7 +20,7 @@ YELLOW = (255, 255, 0)
 class Ship(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.image.load("./ship_454_487.png")
+        self.image = pg.image.load("./resources/images/ship_454_487.png")
         self.image = pg.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = SCREEN_WIDTH - 100
@@ -59,7 +59,7 @@ class Bullet(pg.sprite.Sprite):
 class Monster(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.image.load("./octopus.png")
+        self.image = pg.image.load("./resources/images/octopus.png")
         self.image = pg.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = 0
@@ -74,7 +74,7 @@ class Monster(pg.sprite.Sprite):
 class Rock(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.image.load("rock.png")
+        self.image = pg.image.load("./resources/images/rock.png")
         self.image = pg.transform.scale(self.image, (75, 75))
         self.rect = self.image.get_rect()
         self.rect.x = 0

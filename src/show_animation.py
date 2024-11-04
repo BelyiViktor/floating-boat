@@ -16,12 +16,12 @@ def show_animation():
     display = pg.display.set_mode((int(1280 / 2), int(914 / 2)))
     display_width = int(1280 / 2)
     display_height = int(914 / 2)
-    pg.display.set_caption("Лабораторная работа №5")
-    background_image = pg.image.load("backround_image.jpg")
+    pg.display.set_caption("Плывущая лодочка")
+    background_image = pg.image.load("./resources/images/backround_image.jpg")
     background_image = pg.transform.scale(background_image, (int(1280 / 2), int(914 / 2)))
 
     # Загрузка картинки корабля
-    ship_image = pg.image.load("./ship_454_487.png")
+    ship_image = pg.image.load("./resources/images/ship_454_487.png")
     ship_image = pg.transform.scale(ship_image, (int(454 / 3), int(487 / 3)))
     sprites = pg.sprite.Group()
 
@@ -45,7 +45,7 @@ def show_animation():
     ship.rect.y = display_height - 330
 
     # Музыка на фон
-    pg.mixer.music.load("background_sound.mp3")
+    pg.mixer.music.load("./resources/sounds/background_sound.mp3")
     pg.mixer.music.play()
 
     game_end = False
