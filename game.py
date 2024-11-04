@@ -155,12 +155,14 @@ def play_game():
 
             # Проверка на поражение
             if hit_rocks or hit_monsters:
+                print('Code was here')
                 game_over = True
+                running = False
 
             # Проверка на победу
             if ship.rect.x < 0:
-                show_message(pg, display, "Вы победили!", WHITE, 74)
-                running = False
+                show_message(pg, display, "Вы победили!", WHITE, 50)
+                exit()
 
         # Отображение
         display.fill(BLUE)  # Фон моря
@@ -169,6 +171,6 @@ def play_game():
         pg.display.flip()
     
     if game_over:
-        show_message(pg, display, "Игра окончена: вы проиграли!", WHITE, 74)
-    pg.quit()
+        show_message(pg, display, "Игра окончена: вы проиграли!", WHITE, 50)
+    exit()
 
